@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Blacklist Module">
+  <title>Blacklist- WES</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+
+
+</head>
+
+<body class="bg-light">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite </a>
+        </div>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>Cohort Based NGS Analysis </b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+              <a class="dropdown-item" href="unbiasedcohort">Unbiased Cohort Analysis</a>
+              <a class="dropdown-item" href="biasedcohort">Biased Cohort Analysis</a>
+              <a class="dropdown-item" href="blacklist">Variant Prioritization using Blacklists</a>
+              <a class="dropdown-item" href="genemania">GeneMania Pathway Visualizer</a>
+            </div>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <section class="jumbotron text-center" style='background-image: url("/static/images/cohortJumbo.png"); background-position: center center;background-repeat: no-repeat;  background-size: cover;height:13em'>
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Variant Prioritization with Blacklists</h1>
+      <div align="right">
+
+
+        <a href="/genemania">
+          <button class="btn btn-primary float-right nextbut" type="button" name="button"> Next </button>
+        </a>
+
+        <a href="biasedcohort">
+          <button class="btn btn-primary float-right backbut" type="button" name="button"> Back </button>
+        </a>
+
+
+      </div>
+
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+
+          <div class="flip-card" style="height:17em;">
+            <a href="/gen_blacklist">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img class="card-img-top" src="/static/images/generateBlacklist.png" alt="Generate your own blacklist!">
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-body d-flex j ustify-content-between align-items-center">
+                      <p class="card-text anchor" style="padding: 10%; margin: 1% 2% 2% 5%;">Generate your own custom blacklist in a downloadable format. Apply to any file in this pipeline to filter.</p>
+
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+        <div class="col-md-4">
+
+          <div class="flip-card" style="height:17em;">
+            <a href="/apply_blacklist">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img class="card-img-top" src="/static/images/applyBlacklist.png" alt="Apply a previously generated blacklist!">
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                      <p class="card-text anchor" style="padding: 10%; margin: 1% 2% 2% 5%;"> Apply a previously generated blacklist. This will perform filtering based on the blacklist you upload. </p>
+
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- <div class="card card-body" style="background-color: #DCDCDC	;"> -->
+        <b><span class="text-dark">References: </span></b>
+           <p class="text-muted">
+             Maffucci P., et al., <a  target="_blank" href="https://www.pnas.org/content/116/3/950">Blacklisting variants common in private cohorts but not in public databases optimizes human exam analysis. </a>PNAS, 2018.
+    </div>
+
+
+  <br><br><br><br>
+  <footer class="page-footer font-small">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <br><br>
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+</body>
+
+</html>

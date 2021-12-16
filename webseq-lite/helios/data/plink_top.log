@@ -1,0 +1,15 @@
+PLINK v1.90b6.9 64-bit (4 Mar 2019)
+Options in effect:
+  --file ./data/plink_top
+  --make-bed
+  --out ./data/plink_top
+
+Hostname: administorsimac.sph.ad.jhsph.edu
+Working directory: /Users/devteam/Desktop/helios_TEST/helios
+Start time: Tue Jun 18 14:35:58 2019
+
+Random number seed: 1560882958
+16384 MB RAM detected; reserving 8192 MB for main workspace.
+Error: Failed to open ./data/plink_top.map.
+
+End time: Tue Jun 18 14:35:58 2019

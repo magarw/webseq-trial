@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Kinship/ Relatedness Checks and Sex Inference Module">
+  <title>Kinship and Sex Inference- PLINK</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+
+</head>
+
+<body class="bg-light plink">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite </a>
+        </div>
+
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>SNP Genotyping Analysis </b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="kinsex">Kinship and Sex Inference</a>
+              <a class="dropdown-item" href="ancestry">Ancestry Inference</a>
+              <!-- <a class="dropdown-item" href="#">(Coming soon) Runs of Homozygosity</a>
+              <a class="dropdown-item" href="#">(Coming soon) Copy Number Variation</a> -->
+            </div>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <section class="jumbotron text-center" style='background-image: url("/static/images/snpJumbo.png"); background-position: center center;background-repeat: no-repeat;  background-size: cover;height:13em'>
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Kinship and Sex Inference</h1>
+
+      <div align="right">
+        <a href="/ancestry">
+          <button class="btn btn-primary float-right nextbut" type="button" name="button"> Skip </button>
+        </a>
+
+        <!-- <a href="/">
+          <button class="btn btn-primary float-right backbut" type="button" name="button"> Back </button>
+        </a> -->
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- method="post"  -->
+
+  <form id="kinsexform" action="/kinsexurl" method="POST" enctype="multipart/form-data">
+    <div class="container uploaderArea">
+      <div class="contaner row ">
+        <div class="col-sm-6  ">
+
+
+          <!-- ############################## -->
+          <!-- CHANGE THE LABELS ON THIS -->
+          <!-- ############################## -->
+          <div class="form-group">
+            <label for="fileFormat_PLINK_SEX"> File Format: </label>
+            <select class="form-control" id="fileFormat_PLINK_SEX">
+              <option>PED, MAP</option>
+              <option>BED, BIM, FAM</option>
+            </select>
+          </div>
+
+          <div class="upload-btn-wrapper">
+            <button class="mybtn">Upload your files</button>
+            <input id="kinsexupload" type="file" name="kinsexfile" multiple>
+          </div>
+
+
+          <br />Selected files:
+          <ul>
+            <div id="kinsexFileList">
+            </div>
+          </ul>
+          <br>
+
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">
+        Oops! Looks like <strong>you selected an unsupported file.</strong> Make sure you only have files in PED/MAP or BED/BIM/FAM combinations.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+        </div>
+
+          <!-- ############################## -->
+          <!-- CHANGE THE LABELS ON THIS -->
+          <!-- ############################## -->
+          <br>
+          Depending on your data, you can choose to check one or both of the following modes of sex inference offered by PLINK:<br>
+          <br>
+
+          <div class="form-check form-check-inline checkbox checkbox-primary">
+            <input class="form-check-input" type="checkbox" id="checkbox_X" value="option1">
+            <label class="form-check-label" for="checkbox_X"> X-chromosome</label>
+          </div>
+          <div class="form-check form-check-inline checkbox checkbox-primary">
+            <input class="form-check-input" type="checkbox" id="checkbox_Y" value="option2">
+            <label class="form-check-label" for="checkbox_Y"> Y-chromosome</label>
+          </div>
+
+
+        </div>
+
+        <div class="col-sm-6">
+
+          This page will perform kinship and sex inference through the KING <sup>1</sup> and PLINK <sup>2</sup> toolkits respectively.
+          You will need to make sure that your files have the same prefix filename. Ex. analysis.ped, anaysis.map
+          <br><br>
+          This toolkit supports the most commonly used PLINK formats - bed/bim/fam and ped/map. If you have files in another PLINK format, convert them to one of these formats before uploading your files.
+          <br><br>
+          <h5>Interpretation of kinship coefficients:</h5>
+          <div class="table-responsive">
+
+
+            <table class="table table-striped expl_table">
+              <thead>
+                <tr>
+                  <th scope="col"> Kinship Score</th>
+                  <th scope="col"> Degree Relatedness </th>
+                  <th scope="col"> Interpretation </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td> &gt 0.354 </td>
+                  <td> duplicate/MZ twin </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>[0.177, 0.354] </td>
+                  <td> 1st-degree</td>
+                  <td> Individual's parents, full siblings, or children</td>
+
+                </tr>
+                <tr>
+                  <td>[0.0884, 0.177]</td>
+                  <td> 2nd-degree </td>
+                  <td> Individual's grandparents, grandchildren, aunts, uncles, nephews, nieces or half-siblings</td>
+                </tr>
+                <tr>
+                  <td>[0.0442, 0.0884]</td>
+                  <td> 3rd-degree</td>
+                  <td>Individual's first-cousins, great-grandparents or great grandchildren</td>
+                </tr>
+
+              </tbody>
+
+            </table>
+          </div>
+
+
+          <br>
+          <div class="x_chr_explain">
+            <h5>Interpretation of X-chromosome based sex inference:</h5>
+            You selected X-chromosome for sex inference. This would give you an F-statistic. For interpretation, look at tighly formed clusters in your F-values.
+            <br><br>
+          </div>
+
+          <div class="y_chr_explain">
+            <h5>Interpretation of Y-chromosome based sex inference:</h5>
+            You selected Y-chromosome for sex inference. This will give you the counts on Y chr for each individual. Note that this method has been relaxed, and about 10 counts on the Y chr are ignored for females.
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="container">
+      <!-- type="submit" -->
+      <button type="button" id="kinsexbutton" class="btn btn-primary" name="button" value="Kinsex"> Submit </button>
+    </div>
+  </form>
+
+
+
+  <div class="container">
+    <br />
+    <h6>Status </h6>
+    <div>
+
+      <span class="notstarted"> Process not started yet.</span>
+
+      <span class="inprogress"> In Progress </span>
+
+      <span class="failed"> Failed. Try again, or check with developer.</span>
+
+      <span class="completed"> Finished! Go ahead and download your result files. </span>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- type="submit" -->
+    <br />
+    <button type="button" id="download_kinsexbutton" class="btn btn-success" name="button" value="Download"> Download </button>
+
+  </div>
+
+<br><br>
+  <div class="container">
+    <!-- <div class="card card-body" style="background-color: #DCDCDC	;"> -->
+      <b><span class="text-dark">References: </span></b>
+
+         <p class="text-muted">
+           Manichaikul A., et al., <a target="_blank" href=" https://doi.org/10.1093/bioinformatics/btq559"> Robust relationship inference in genome-wide association studies. </a> Bioinformatics, 2018.
+        </p>
+        <p class="text-muted">
+          Purcell S., et al., <a target="_blank" href="https://doi.org/10.1086/519795">PLINK: a tool set for whole-genome association and population-based linkage analyses. </a> American Journal of Human Genetics, 2007.
+
+        </p>
+
+    <!-- </div> -->
+  </div>
+
+  <br><br><br><br>
+  <footer class="page-footer font-small">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <br><br>
+
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+
+</body>
+
+</html>

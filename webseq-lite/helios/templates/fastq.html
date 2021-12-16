@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Convert FASTQ to VCF">
+
+  <title>FASTQ to VCF</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+
+
+</head>
+
+<body class="bg-light">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite</a>
+        </div>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>FASTQ to VCF</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/fastqtovcf">FASTQ to VCF</a>
+            </div>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <section class="jumbotron text-center" style='background-image: url("/static/images/vcfJumbo.png"); background-position: center center;background-repeat: no-repeat;  background-size: cover;height:13em'>
+    <!-- <video autoplay muted loop>
+  <source src="" data-src="/static/videos/vid5.mp4" type="video/mp4">
+</video> -->
+    <div class="container">
+      <h1 class="jumbotron-heading">FASTQ to VCF converter</h1>
+
+      <div align="right">
+        <a href="/">
+          <button class="btn btn-primary float-right backbut" type="button" name="button"> Back </button>
+        </a>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- method="post"  -->
+
+
+
+  <form id="fastqtovcfform" action="/fastqtovcfurl" method="POST" enctype="multipart/form-data">
+    <!-- <p>
+      <label for="ReadGroup">ReadGroup</label>
+    </p>
+    <div class="upload-btn-wrapper">
+      <button class="mybtn">Submit</button>
+      <input type="submit" -->
+    <div class="container uploaderArea">
+      <div class="contaner row ">
+        <div class="col-sm-6  ">
+
+          <div class="upload-btn-wrapper">
+            <button class="mybtn">Upload files</button>
+            <input id="fastqtovcfupload" type="file" name="fastqtovcffile" multiple>
+
+          </div>
+          <br></br>
+          <div>
+            <label for="readgrouptext"> Read Group ID: </label>
+            <input type="text" value="" name="readgroupform" id="readgrouptext" required>
+
+
+
+        </div>
+
+          <br />Selected files:
+          <ul>
+            <div id="fastqtovcfFileList">
+            </div>
+          </ul>
+          <br>
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">
+        Oops! Looks like <strong>you selected an unsupported file.</strong> Make sure you only have FASTQ files selected.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+        </div>
+        </div>
+        <div class="col-sm-6">
+
+          This page will convert FASTQ files generated from paired-end sequencing into GRCh38/hg38-aligned VCF files.
+          .This page can accept compressed fastq (with file extension .fastq.gz), there is no need to expand them before starting the conversion.
+          You may use VCF files to continue on through the next stage of analysis (VCF to ANNOVAR converter). This module will also generate and return BAM and BAI files, which you may use later in the IGV module.
+
+          <br> <br>
+          First, navigate to Desktop -> Sandbox -> forfastqtovcf -> fastqfiles. Place inside this folder the two FASTQ files for a single individual.
+	         <br>
+           <b> e.g. Person1_R1.fastq, Person1_R2.fastq</b>
+
+           <br><br>
+
+           Now, click Upload files. Select the two fastq.gz files in the "fastqfiles" folder. Next, enter an ID in the Sample ID box <br>
+            <b> e.g.	Sample ID: Person_1 </b>
+            <br><br>
+This ID will be used to name your VCF, BAM and BAI files. Click submit.
+
+WebSeq will generate BAM, BAI and VCF files and write them to the “fastqfiles” folder. The generation of these files will take a few hours per person.<br>
+<b>Result files:  Person_1.bam, Person_1.bai, Person_1.vcf </b>
+
+
+
+
+
+          <!-- Currently, this program
+          <b>will filter out introns, non-coding microRNA, 3' and 5' UTR and some other functional
+          regions of from the file.</b> Do not perform this step if you wish to retain any of these regions. -->
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- type="submit" -->
+      <button type="button" id="fastqtovcfbutton" class="btn btn-primary" name="button" value="Fastqtovcf"> Submit </button>
+    </div>
+  </form>
+
+
+  <div class="container">
+    <br />
+    <h6>Status </h6>
+    <div>
+
+      <span class="notstarted"> Process not started yet.</span>
+
+      <span class="inprogress"> In Progress </span>
+
+      <span class="failed"> Failed. Try again, or check with developer.</span>
+
+      <span class="completed"> Finished! Go ahead and download your result files. </span>
+    </div>
+  </div>
+
+ <div class="container">
+   <div class="progress">
+     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+   </div>
+ </div>
+
+ <div class="container">
+   <!-- type="submit" -->
+   <br/>
+    <!-- <a href='/downloadfastqtovcf'>   <button type="button" id="download_fastqtovcfbutton" class="btn btn-success" name="button" value="Download"> Download </button>
+ </a> -->
+    <p class="text-muted"></p>
+      <button type="button" id="push_fastqtovcfbutton" class="btn btn-success" name="button" value="Push" > Completed! </button>
+    </a>
+  </div>
+
+
+<br><br><br><br>
+<div class="container">
+  <!-- <div class="card card-body" style="background-color: #DCDCDC	;"> -->
+    <b><span class="text-dark">References: </span></b>
+
+    <p class="text-muted"> Van der Auwera G.A. et al, <a target="_blank" href="https://currentprotocols.onlinelibrary.wiley.com/doi/full/10.1002/0471250953.bi1110s43">From FastQ Data to High-Confidence Variant Calls: The Genome Analysis Toolkit Best Practices Pipeline. </a>Current Protocols in Bioinformatics, 2013. </p>
+
+<p class="text-muted">Poplin R. et al., <a target="_blank" href="https://www.biorxiv.org/content/10.1101/201178v3">Scaling accurate genetic variant discovery to tens of thousands of samples. </a>bioRxiv, 2017.</p>
+
+<p class="text-muted"><a target="_blank" href="https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-"> Genome Analysis Toolkit (GATK) Best Practices: Germline short variant discovery (SNPs + Indels) </a>, 2020.</p>
+
+  <!-- </div> -->
+</div>
+
+
+
+
+<br><br><br><br>
+<footer class="page-footer font-small">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<br><br>
+
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+
+
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+</body>
+
+</html>

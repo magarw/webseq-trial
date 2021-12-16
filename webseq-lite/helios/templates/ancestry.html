@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Ancestry Module">
+
+
+  <title>Ancestry Inference- PLINK</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+
+
+</head>
+
+<body class="bg-light plink">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite</a>
+        </div>
+
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>SNP Genotyping Analysis</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="kinsex">Kinship and Sex Inference</a>
+              <a class="dropdown-item" href="ancestry">Ancestry Inference</a>
+              <!-- <a class="dropdown-item" href="#">(Coming soon) Runs of Homozygosity</a>
+              <a class="dropdown-item" href="#">(Coming soon) Copy Number Variation</a> -->
+            </div>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <section class="jumbotron text-center" style='background-image: url("/static/images/snpJumbo.png"); background-position: center center;background-repeat: no-repeat;  background-size: cover;height:13em'>
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Ancestry Inference</h1>
+      <div align="right">
+        <a href="/">
+          <button class="btn btn-primary float-right nextbut" type="button" name="button">  Back to Homepage </button>
+        </a>
+
+        <!-- <a href="/kinsex">
+          <button class="btn btn-primary float-right backbut" type="button" name="button"> Back </button>
+        </a> -->
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- method="post"  -->
+
+
+  <div class="container uploaderArea">
+    <div class="contaner row ">
+
+      <div class="col-sm-6  ">
+        <form id="ancestryform" action="/ancestryurl" method="POST" enctype="multipart/form-data">
+
+          <!-- ############################## -->
+          <!-- CHANGE THE LABELS ON THIS -->
+          <!-- ############################## -->
+          <div class="form-group">
+            <label for="fileFormat_PLINK_ANCESTRY"> File Format: </label>
+            <select class="form-control" id="fileFormat_PLINK_ANCESTRY">
+              <option>PED, MAP</option>
+              <option>BED, BIM, FAM</option>
+            </select>
+          </div>
+
+          <div class="upload-btn-wrapper">
+            <button class="mybtn">Choose sample files</button>
+            <input id="ancestryupload" type="file" name="ancestryfile" multiple>
+          </div>
+
+
+          <br />Selected files:
+          <ul>
+            <div id="ancestryFileList">
+            </div>
+          </ul>
+          <br>
+
+          <div class="alert alert-danger alert-dismissable fade show zeroalert" role="alert">
+        Oops! Looks like <strong>you selected an unsupported file.</strong> Make sure you only have files in PED/MAP or BED/BIM/FAM combinations.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+        </div>
+
+          This page will perform ancestry inference through the PLINK <sup>1</sup> toolkit, so you will need to make sure that your files have the same prefix filename. Ex. analysis.ped, anaysis.map
+          <br><br>
+          This toolkit supports the most commonly used PLINK formats - bed/bim/fam and ped/map. If you have files in another PLINK format, convert them to one of these formats before uploading your files.
+
+          <div class="container">
+            <!-- type="submit" -->
+            <button type="button" id="ancestrybutton" class="btn btn-primary" name="button" value="Ancestry"> Extract SNPs </button>
+            <br><br>
+
+
+          </div>
+        </form>
+
+        <div class="alert alert-danger fade show firstalert starter" role="alert">
+      Yikes! Looks like <strong>your data didn't have any common markers with 1000G .</strong>
+      <button type="button" class="close"  aria-label="Close">
+      </button>
+      </div>
+
+      <div class="alert alert-danger fade show secondalert starter2" role="alert">
+    Yikes! There were <strong> duplicate IDs found</strong> in your sample. You'll have to resolve this manually.
+    <button type="button" class="close"  aria-label="Close">
+    </button>
+    </div>
+
+
+      </div>
+
+      <div class="col-sm-6" id="rightDiv">
+
+        <form id="pcaform" action="/pcaurl" method="POST" enctype="application/x-www-form-urlencoded">
+
+          <br>
+          Depending on your sample data, you can choose to run PCA on select populations. We recommend running one iteration with the entire 1000G<sup>2</sup> dataset, then running more iterations with selected populations for better resolution.<br>
+          <br>
+
+          <br>
+          <h5>Reference Panel Customizations:</h5>
+          <div class="form-group">
+            <label for="fileFormat_PLINK_ANCESTRY_DB"> Database: </label>
+            <select class="form-control" id="fileFormat_PLINK_ANCESTRY_DB" name="db_name">
+
+              <option>1000 Genomes Project</option>
+              <option>[Coming soon] The International HapMap Project</option>
+              <option>[Coming soon] African Genome Variation Project</option>
+            </select>
+          </div>
+
+          <div class="table-responsive pre-scrollable">
+            <table class="table table-striped expl_table" id="1000G_pops">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="checkbox_ALL" value="option1" checked name="all">
+                    </div>
+                  </th>
+                  <th scope="col"> ID </th>
+                  <th scope="col"> Description </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_GBR" value="option1" name="GBR">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_GBR"> GBR </label>
+                  </td>
+                  <td>
+                    British in England and Scotland
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_TSI" value="option1" name="TSI">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_TSI"> TSI </label>
+                  </td>
+                  <td>
+                    Toscani in Italia
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_FIN" value="option1" name="FIN">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_FIN"> FIN </label>
+                  </td>
+                  <td>
+                    Finnish in Finland
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_CEU" value="option1" name="CEU">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_CEU"> CEU </label>
+                  </td>
+                  <td>
+                    Utah Residents (CEPH) with Northern and Western European Ancestry
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_IBS" value="option1" name="IBS">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_IBS"> IBS </label>
+                  </td>
+                  <td>
+                    Iberian Population in Spain
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_MXL" value="option1" name="MXL">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_MXL"> MXL </label>
+                  </td>
+                  <td>
+                    Mexican Ancestry from Los Angeles USA
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_PUR" value="option1" name="PUR">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_PUR"> PUR </label>
+                  </td>
+                  <td>
+                    Puerto Ricans from Puerto Rico
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_CLM" value="option1" name="CLM">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_CLM"> CLM</label>
+                  </td>
+                  <td>
+                    Colombians from Medellin, Colombia
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_PEL" value="option1" name="PEL">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_PEL"> PEL</label>
+                  </td>
+                  <td>
+                    Peruvians from Lima, Peru
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_GIH" value="option1" name="GIH">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_GIH"> GIH</label>
+                  </td>
+                  <td>
+                    Gujarati Indian from Houston, Texas
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_BEB" value="option1" name="BEB">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_BEB"> BEB</label>
+                  </td>
+                  <td>
+                    Bengali from Bangladesh
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_ITU" value="option1" name="ITU">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_ITU"> ITU</label>
+                  </td>
+                  <td>
+                    Indian Telugu from the UK
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_PJL" value="option1" name="PJL">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_PJL"> PJL</label>
+                  </td>
+                  <td>
+                    Punjabi from Lahore, Pakistan
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_STU" value="option1" name="STU">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_STU"> STU</label>
+                  </td>
+                  <td>
+                    Sri Lankan Tamil from the UK
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_CDX" value="option1" name="CDX">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_CDX"> CDX</label>
+                  </td>
+                  <td>
+                    Chinese Dai in Xishuangbanna, China
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_CHB" value="option1" name="CHB">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_CHB"> CHB</label>
+                  </td>
+                  <td>
+                    Han Chinese in Beijing, China
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_CHS" value="option1" name="CHS">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_CHS"> CHS</label>
+                  </td>
+                  <td>
+                    Southern Han Chinese
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_KHV" value="option1" name="KHV">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_KHV"> KHV</label>
+                  </td>
+                  <td>
+                    Kinh in Ho Chi Minh City, Vietnam
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_JPT" value="option1" name="JPT">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_JPT"> JPT</label>
+                  </td>
+                  <td>
+                    Japanese in Tokyo, Japan
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_LWK" value="option1" name="LWK">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_LWK"> LWK</label>
+                  </td>
+                  <td>
+                    Luhya in Webuye, Kenya
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_MSL" value="option1" name="MSL">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_MSL"> MSL</label>
+                  </td>
+                  <td>
+                    Mende in Sierra Leone
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_YRI" value="option1" name="YRI">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_YRI"> YRI</label>
+                  </td>
+                  <td>
+                    Yoruba in Ibadan, Nigeria
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_GWD" value="option1" name="GWD">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_GWD"> GWD</label>
+                  </td>
+                  <td>
+                    Gambian in Western Divisions in the Gambia
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_ESN" value="option1" name="ESN">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_ESN"> ESN</label>
+                  </td>
+                  <td>
+                    Esan in Nigeria
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_ASW" value="option1" name="ASW">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_ASW"> ASW</label>
+                  </td>
+                  <td>
+                    Americans of African Ancestry in SW
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input popcheck" type="checkbox" id="checkbox_ACB" value="option1" name="ACB">
+                    </div>
+                  </td>
+                  <td>
+                    <label class="form-check-label" for="checkbox_ACB"> ACB</label>
+                  </td>
+                  <td>
+                    African Caribbeans in Barbados
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+          </div>
+
+
+          <br><br>
+
+          <div class="container">
+            <!-- type="submit" -->
+            <button type="button" id="pcabutton" class="btn btn-primary" name="button" value="PCA"> Run PCA </button>
+            <br><br>
+
+
+          </div>
+        </form>
+      </div>
+      <!-- div col sm 6 ends -->
+
+
+    </div>
+    <!-- container row div -->
+
+
+  </div>
+
+
+  <div class="container">
+    <br />
+    <h6>Status </h6>
+    <div>
+
+      <span class="notstarted"> Process not started yet.</span>
+
+      <span class="inprogress"> In Progress </span>
+
+      <span class="failed"> Failed. Try again, or check with developer.</span>
+
+      <span class="completed"> Finished! Configure your reference next to run PCA! </span>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
+
+  <br><br>
+  <div class="container">
+
+    <div class="container-row" id="sample_img_div">
+      <center> <i> Sample static PCA. Actual plot will be interactive.</i> </center>
+
+      <img src="../static/images/sample pca.png" class="img-fluid" alt="" id="sample_img">
+    </div>
+
+    <div class="container" id="plotContainer">
+
+    </div>
+    <br><br>
+    <div class="container-row" id="axis_controls">
+      <center>
+        <div>
+
+          <span>X-Axis Principal Component:</span>
+          <input type="number" id="pc1_val" min="1" step="1" max="20" value="1" data-bind="value:replyNumber" />
+          <span style="padding: 0 0 3em">Y-Axis Principal Component:</span>
+          <input type="number" id="pc2_val" min="1" step="1" max="20" value="2" style="margin: 0 3em 0 0" data-bind="value:replyNumber" />
+          <button type="button" class="btn btn-primary" name="button" id="refresh_button"> Refresh</button>
+        </div>
+        <div class="">
+          <center> <span> <i>You can plot any pairing from the first 20 principal components </i></span></center><br><br>
+
+
+        </div>
+      </center>
+
+    </div>
+
+
+
+    <div class="container-fluid iframe-container" id="iframe-container">
+      <iframe frameborder="0" seamless="seamless" scrolling="no" id="plot_iframe"></iframe>
+    </div>
+
+  </div>
+  <div class="container">
+    <!-- <div class="card card-body" style="background-color: #DCDCDC	;"> -->
+      <b><span class="text-dark">References: </span></b>
+
+        <p class="text-muted">
+Purcell, S., et al.,<a target="_blank" href="https://doi.org/10.1086/519795"> PLINK: a tool set for whole-genome association and population-based linkage analyses. </a> American Journal of Human Genetics, 2007.
+        </p>
+
+        <p class="text-muted">
+          Auton, A., et al., <a target="_blank" href="https://doi.org/10.1038/nature15393">A global reference for human genetic variation. </a> Nature, 2015.
+        </p>
+
+    <!-- </div> -->
+  </div>
+
+  <br><br><br><br>
+  <footer class="page-footer font-small">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <br><br>
+
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+
+  <!-- D3.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+  <!-- <script type="text/javascript">
+
+       var fig = {{graphJSON | safe}};
+
+       Plotly.plot("chart", fig.data, fig.layout || {});
+
+   </script> -->
+
+
+</body>
+
+</html>

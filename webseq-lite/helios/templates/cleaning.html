@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Cleaning Module">
+  <title>Cleaning and Prefiltering- WES</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+
+
+</head>
+
+<body class="bg-light">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite</a>
+        </div>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>Family Based NGS Analysis </b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/clean">Cleaning and Prefiltering</a>
+              <a class="dropdown-item" href="annotate">Annotation</a>
+              <a class="dropdown-item" href="filtering">Filtering by Allele Frequency</a>
+              <a class="dropdown-item" href="modes">Modes of Inheritance</a>
+            </div>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <section class="jumbotron text-center" style='background-image: url("/static/images/famJumbo.png"); background-position: center center;background-repeat: no-repeat;  background-size: cover;height:13em'>
+
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Cleaning and Prefiltering</h1>
+
+      <div align="right">
+        <a href="annotate">
+          <button class="btn btn-primary float-right nextbut" type="button" name="button" > Skip </button>
+        </a>
+
+        <!-- <a href="/">
+          <button class="btn btn-primary float-right backbut" type="button" name="button"> Back </button>
+        </a> -->
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- method="post"  -->
+
+  <form id="cleanform" action="/cleaningurl" method="POST" enctype="multipart/form-data">
+    <div class="container uploaderArea">
+      <div class="contaner row ">
+        <div class="col-sm-6  ">
+
+          <div class="upload-btn-wrapper">
+            <button class="mybtn">Upload files</button>
+            <input id="cleanupload" type="file" name="cleanfile" multiple>
+          </div>
+
+
+          <br />Selected files:
+          <ul>
+            <div id="cleanPushFileList"></div>
+            <div id="cleanFileList">
+            </div>
+          </ul>
+          <br>
+
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">
+        Oops! Looks like <strong>you selected an unsupported file.</strong> Make sure you only have CSV or XLSX files selected.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+  </button>
+        </div>
+
+
+        </div>
+        <div class="col-sm-6">
+
+          This page will perform both cleaning, and prefilering as one step. <br /><br />
+
+          Cleaning will reduce file sizes by removing columns that are not typically used for downstream filtering and analysis. Prefiltering removes certain types of variants, based on user-defined preferences below. Select the types of variants that you would like to <strong>keep</strong> for your downstream analyses:
+          <br> <br>
+          <div class="container">
+
+            <div class="form-check checkbox checkbox-primary ">
+              <input class="form-check-input" type="checkbox" value="" checked id="check0" >
+                <label class="form-check-label " for="check0" title="Tooltip on left">
+                Exonic
+                </label>
+                <br>
+                <p class="text-muted"> Note: Even with this option checked, synonymous SNVs in exonic regions are removed. </p>
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+                <input class="form-check-input" type="checkbox" value="" id="check01" >
+                  <label class="form-check-label " for="check01" title="Tooltip on left">
+                  ncRNA_exonic
+                  </label>
+
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+              <input class="form-check-input" type="checkbox" value="" checked id="check02" >
+                <label class="form-check-label " for="check02"  title="Tooltip on left">
+                Splicing
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+              <input class="form-check-input" type="checkbox" value="" id="check03" >
+                <label class="form-check-label " for="check03" title="Tooltip on left">
+                ncRNA_splicing
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary ">
+              <input class="form-check-input" type="checkbox" value=""  id="check04" >
+                <label class="form-check-label " for="check04" title="Tooltip on left">
+                Intronic
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+              <input class="form-check-input" type="checkbox" value=""  id="check05" >
+                <label class="form-check-label " for="check05" title="Tooltip on left">
+                ncRNA_intronic
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+              <input class="form-check-input" type="checkbox" value=""  id="check06" >
+                <label class="form-check-label " for="check06" title="Tooltip on left">
+                Intergenic
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+              <input class="form-check-input" type="checkbox" value=""  id="check07" >
+                <label class="form-check-label " for="check07" title="Tooltip on left">
+                Downstream
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary ">
+              <input class="form-check-input" type="checkbox" value=""  id="check08" >
+                <label class="form-check-label " for="check08" title="Tooltip on left">
+                Upstream
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+              <input class="form-check-input" type="checkbox" value=""  id="check09" >
+                <label class="form-check-label " for="check09" title="Tooltip on left">
+                UTR3
+                </label>
+            </div>
+            <div class="form-check checkbox checkbox-primary">
+              <input class="form-check-input" type="checkbox" value=""  id="check10" >
+                <label class="form-check-label " for="check10" title="Tooltip on left">
+                UTR5
+                </label>
+            </div>
+
+
+          </div>
+
+          <br>
+          When Cleaning and Prefiltering is finished, download the results to archive a copy, and then push the results forward to the next step in this module (Annotation).
+
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- type="submit" -->
+      <button type="button" id="cleanbutton" class="btn btn-primary" name="button" value="Clean"> Submit </button>
+    </div>
+  </form>
+
+
+  <div class="container">
+    <br />
+    <h6>Status </h6>
+    <div>
+
+      <span class="notstarted"> Process not started yet.</span>
+
+      <span class="inprogress"> In Progress </span>
+
+      <span class="failed"> Failed. Try again, or check with developer.</span>
+
+      <span class="completed"> Finished! Go ahead and download your result files. </span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- type="submit" -->
+    <br/>
+    <button type="button" id="download_cleanbutton" class="btn btn-success" name="button" value="Download"> Download </button>
+    <a href="annotate">
+      <button type="button" id="push_cleanbutton" class="btn btn-primary" name="button" value="Push"> Push results to next stage </button>
+    </a>
+  </div>
+
+
+<br><br><br><br>
+
+
+<br><br><br><br>
+<footer class="page-footer font-small">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<br><br>
+
+
+
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+</body>
+
+</html>

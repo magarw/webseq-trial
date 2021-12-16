@@ -1,0 +1,15 @@
+PLINK v1.90b6.9 64-bit (4 Mar 2019)
+Options in effect:
+  --biallelic-only strict list
+  --vcf /Volumes/bsph-mmi$/WES raw data/VCF/BH10281_1_SNV.vcf
+  --vcf-idspace-to :
+  --vcf-min-qual
+
+Hostname: Milinds-MacBook-Pro.local
+Working directory: /Users/magarw10/Desktop/webseq/helios/plink
+Start time: Fri Jul 19 23:50:53 2019
+
+Error: Missing --vcf-min-qual parameter.
+For more information, try 'plink --help <flag name>' or 'plink --help | more'.
+
+End time: Fri Jul 19 23:50:53 2019

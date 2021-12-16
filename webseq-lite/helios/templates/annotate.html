@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Annotation Module">
+  <title>Annotation- WES</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+
+<body class="bg-light">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite</a>
+        </div>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>Family Based NGS Analysis</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/clean">Cleaning and Prefiltering</a>
+              <a class="dropdown-item" href="annotate">Annotation</a>
+              <a class="dropdown-item" href="filtering">Filtering by Allele Frequency</a>
+              <a class="dropdown-item" href="modes">Modes of Inheritance</a>
+
+            </div>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+  <section class="jumbotron text-center" style='background-image: url("/static/images/famJumbo.png"); background-position: center center;background-repeat: no-repeat;  background-size: cover;height:13em'>
+
+    <div class="container">
+      <h1 class="jumbotron-heading">Annotation</h1>
+      <div align="right">
+        <a href="filtering">
+          <button class="btn btn-primary float-right nextbut" type="button" name="button"> Skip </button>
+        </a>
+
+        <!-- <a href="clean">
+          <button class="btn btn-primary float-right backbut" type="button" name="button"> Back </button>
+        </a> -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- method="post"  -->
+
+  <form id="annotateform" action="/annotatingurl" method="POST" enctype="multipart/form-data">
+    <div class="container uploaderArea">
+      <div class="contaner row ">
+        <div class="col-sm-6  ">
+
+          <div class="upload-btn-wrapper">
+            <button class="mybtn">Upload files</button>
+            <input id="annotateupload" type="file" name="annotatefile" multiple>
+          </div>
+          <br />Selected files:
+          <div id="annotatePushFileList"></div>
+
+          <div id="annotateFileList"></div>
+          <br><br>
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">
+        Oops! Looks like <strong>you selected an unsupported file.</strong> Make sure you only have CSV or XLSX files selected.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+        </div>
+        </div>
+        <div class="col-sm-6">
+
+          Adding additional annotation for each variant may enable the user to filter and prioritize variants more efficiently. Users should read the original publications referenced below to determine their own cutoff values for downstream variant prioritization.
+
+        <br><br>
+
+
+          <div class="container">
+            <div id="accordion">
+
+
+              <br>
+
+              <div class="card">
+                <div class="card-header bg-light">
+                  <a class="card-link" data-toggle="collapse" href="#gdi_explanation" aria-expanded="true" aria-controls="gdi_explanation"> Gene Damage Index <sup>1</sup><span class="collapsed">
+                      <p><b>&gt</b></p>
+                    </span>
+                    <span class="expanded"> <p><b> &lt</b> </p> </span>
+                 </a>
+                </div>
+                <div id="gdi_explanation" class="collapse ">
+                    <div class="card-body">
+                    The gene damage index (GDI) is the accumulated mutational damage of each human gene in healthy human population, based on the 1000 Genomes Project <sup> 2</sup>database (Phase 3) gene
+                    variations of healthy individuals and of the CADD <sup>3</sup> score for calculating impact. <br><br>Since highly damaged human genes are unlikely to be disease-causing, GDI is
+                    very effective to filter out variants harbored in highly damaged (high GDI) genes that are unlikely to be disease-causing. <sup>1</sup>
+                    </div>
+                </div>
+              </div>
+
+              <br>
+
+              <div class="card">
+                <div class="card-header bg-light">
+                  <a class="card-link" data-toggle="collapse" href="#msc_explanation" aria-expanded="true" aria-controls="msc_explanation"> Mutation Significance Cutoff <sup>4</sup> <span class="collapsed">
+                      <p><b>&gt</b></p>
+                    </span>
+                    <span class="expanded"> <p><b> &lt</b> </p> </span>
+                 </a>
+                </div>
+                <div id="msc_explanation" class="collapse ">
+                    <div class="card-body">
+                  The MSC score of a gene represents the lowest expected clinically/biologically relevant CADD
+                  cutoff value for that specific gene.<br><br> For each gene, high phenotypic impact (i.e. possibly damaging) is any CADD score equal or above the MSC generated by the
+                  specific method, and low phenotypic impact (i.e. benign) is any score below the MSC.<sup>4</sup>
+                    </div>
+                </div>
+              </div>
+
+                <br>
+              <div class="card">
+                <div class="card-header bg-light">
+                  <a class="card-link" data-toggle="collapse" href="#cdg_explanation" aria-expanded="true" aria-controls="cdg_explanation">Closest Disease Causing Gene<sup>5</sup> <span class="collapsed">
+                      <p><b>&gt</b></p>
+                    </span>
+                    <span class="expanded"> <p><b> &lt</b> </p> </span>
+                 </a>
+                </div>
+                <div id="cdg_explanation" class="collapse ">
+                    <div class="card-body">
+                To facilitate the discovery of novel gene-disease associations, the CDG database and server provide the putative biologically-closest known disease-causing genes (and their associated phenotypes)
+                for 13,005 human genes not reported to be disease-causing. CDG also reports the 5,430 known gene-disease associations if corresponding.<sup>5</sup>
+                    </div>
+                </div>
+              </div>
+              <br>
+
+              <div class="card">
+                <div class="card-header bg-light">
+                  <a class="card-link" data-toggle="collapse" href="#pli_explanation" aria-expanded="true" aria-controls="pli_explanation">pLi, pRec, pNull Scores<sup>6</sup><span class="collapsed">
+                      <p><b>&gt</b></p>
+                    </span>
+                    <span class="expanded"> <p><b> &lt</b> </p> </span>
+                 </a>
+                </div>
+                <div id="pli_explanation" class="collapse ">
+                    <div class="card-body">
+                      The pLI score is the probability that a given gene falls into the Haploinsufficient category, therefore is extremely intolerant of loss-of-function variation. Genes with high pLI scores
+                      (pLI ≥ 0.9) are extremely LoF intolerant, whereby genes with low pLI scores (pLI ≤ 0.1) are LoF tolerant.
+                      <br><br>
+                      pRec and pNull reflect similar ideas, but they are more or less relevant depending on the type of genetic hypothesis you have (dominant inheritace, or recessive inheritance).
+                    </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <br><br>When Annotation is finished, download the results to archive a copy, and then push the results forward to the next step in this module (Filtering by Allele Frequency).
+
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- type="submit" -->
+      <button type="button" id="annotatebutton" class="btn btn-primary" name="button" value="Annotate"> Submit </button>
+    </div>
+  </form>
+
+
+  <div class="container">
+    <br />
+    <h6>Status </h6>
+    <div>
+
+      <span class="notstarted"> Process not started yet.</span>
+
+      <span class="inprogress"> In Progress </span>
+
+      <span class="failed"> Failed. Try again, or check with developer.</span>
+
+      <span class="completed"> Finished! Go ahead and download your annotated files. </span>
+    </div>
+  </div>
+
+    <div class="container">
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+
+  <div class="container">
+    <!-- type="submit" -->
+    <br />
+    <button type="button" id="download_annotatebutton" class="btn btn-success" name="button" value="Download"> Download </button>
+
+    <a href="filtering">
+      <button type="button" id="push_annotatebutton" class="btn btn-primary" name="button" value="Push"> Push results to next stage </button>
+    </a>
+
+
+  </div>
+
+  <br><br><br>
+  <div class="container">
+    <!-- <div class="card card-body" style="background-color: #DCDCDC	;"> -->
+    <b><span class="text-dark">References: </span></b>
+
+    <p class="text-muted">
+      Itan Y., et al., <a target="_blank" href="https://www.pnas.org/content/early/2015/10/14/1518646112.abstract">The human gene damage index as a gene-level approach to prioritizing exome variants.</a> PNAS, 2015.
+    </p>
+
+    <p class="text-muted">
+      Auton A., et al., <a target="_blank"  href="https://doi.org/10.1038/nature15393">A global reference for human genetic variation.</a> Nature, 2015.
+    </p>
+
+    <p class="text-muted">
+      Kircher M., et al. <a  target="_blank" href="https://www.nature.com/articles/ng.2892">A General Framework for Estimating the Relative Pathogenicity of Human Genetic Variants. </a>Nature Genetics, 2014.
+    </p>
+
+
+    <p class="text-muted">
+      Itan Y., et al., <a  target="_blank" href="https://www.nature.com/articles/nmeth.3739" >The mutation significance cutoff: gene-level thresholds for variant predictions. </a>Nature Methods, 2016.
+
+
+    <p class="text-muted">
+      Requena, D., et al.,  <a target="_blank" href="https://www.frontiersin.org/articles/10.3389/fimmu.2018.01340/full" >CDG: an online server for detecting biologically closest disease-causing genes and its application to primary immunodeficiency. </a>Frontiers in Immunology, 2018.
+    </p>
+
+
+    <p class="text-muted">
+      Lek M., et al., <a  target="_blank" href="https://www.nature.com/articles/nature19057">Analysis of Protein-Coding Genetic Variation in 60,706 Humans. </a>Nature, 2016.
+    </p>
+
+  </div>
+
+  <br><br><br><br>
+  <footer class="page-footer font-small">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <br><br>
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+</body>
+
+</html>

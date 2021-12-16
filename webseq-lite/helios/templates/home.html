@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Home Page ">
+  <title>Home- WES</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+
+
+  <!-- For GIVE  -->
+
+  <script src="https://www.givengine.org/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+  <!-- Import GIVE component -->
+  <link rel="import" href="https://www.givengine.org/components/chart-controller/chart-controller.html">
+
+
+
+</head>
+
+<body class="bg-light">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite</a>
+        </div>
+
+        <ul class="navbar-nav">
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+  <main role="main">
+
+    <section class="jumbotron text-center">
+      <video autoplay muted loop>
+    <source src="" data-src="/static/videos/vid5.mp4" type="video/mp4">
+
+</video>
+      <div class="container">
+        <h1 class="jumbotron-heading" style="color: white">Start analyzing your genetic data</h1><br>
+        <p class="lead" style="color: #ffffff;">Welcome to WebSeq Lite! <br><br>We have developed several modules to support customized analyses of human genetic data. Please choose one of the modules below to begin your custom analysis.</p>
+	                   <p style="color: #ffffff;"> <strong>WebSeq is built by researchers, for researchers, and is not intended for clinical diagnostic use.</strong></p>
+
+      </div>
+    </section>
+
+    <div class="album py-12 bg-light">
+      <div class="container">
+ <!-- Row 1 -->
+  <div class="row justify-content-center">
+
+        <!-- cell 1  -->
+        <!-- <div class="col-md-4">
+            <div class="flip-card">
+              <a href="fastqtovcf">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img class="card-img-top" src="/static/images/fastq.png" alt="FASTQ to VCF module" height="250", width="40">
+                  </div>
+                  <div class="flip-card-back">
+
+                      <div class="card-body d-flex justify-content-between align-items-center">
+
+                        <p class="card-text anchor" style="padding: 10%;">
+
+                          Start with FASTQ files. This module will align the data to the GRCh38/hg38 reference genome, generate .sam and .bam files, mark duplicate reads, recalibrate base quality scores, and call variants. This module will generate a VCF file.
+
+                          <br><br> </p>
+
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div> -->
+
+
+
+          <!-- <div class="col-md-4">
+            <div class="flip-card">
+              <a href="annovar_option">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img class="card-img-top" src="/static/images/vcftoanno copy.png" alt="VCF to ANNOVAR Module">
+                  </div>
+                  <div class="flip-card-back">
+
+                      <div class="card-body d-flex justify-content-between align-items-center">
+                        <p class="card-text anchor" style="padding: 20%;">This module will help you convert your VCF files to CSV files with ANNOVAR variant annotations.
+                          <br><br> </p>
+
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div> -->
+
+        <div class="col-md-4">
+          <div class="flip-card">
+            <a href="clean">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img class="card-img-top" src="/static/images/family copy.png" alt="Family Based Next Generation Sequencing Data Analysis">
+                </div>
+                <div class="flip-card-back">
+
+                    <div class="card-body d-flex justify-content-between align-items-center">
+
+                      <p class="card-text anchor" style="padding: 8%;">
+
+                        This module will help you conduct a family-based analysis from start to finish. Starting with CSV files from the VCF to Annovar CSV module, you can clean and prefilter the data based on the types of variants you’re interested in, add additional annotation, filter by allele frequency, and finally filter by mode of inheritance.
+
+                        <div class="d-flex justify-content-between align-items-center"></div>
+
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+
+        <div class="col-md-4">
+          <div class="flip-card">
+            <a href="unbiasedcohort">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img class="card-img-top" src="/static/images/cohort based.png" alt="Cohort Wide Next Generation Sequencing Data Analysis">
+                </div>
+                <div class="flip-card-back">
+                  <div class="card-body d-flex justify-content-between align-items-center">
+                    <p class="card-text anchor" style="padding:8%;" >This module supports cohort-based analyses. Starting with CSV files from the VCF to Annovar CSV module, you can: Detect genetic homogeneity in your cohort, search for all variants in a particular gene in your cohort, remove false positives from your cohort analysis results, and visualize pathways.</p>
+                    <!-- <div class="d-flex justify-content-between align-items-center"></div> -->
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row ends -->
+      </div>
+      <br><br>
+<div class="row justify-content-center">
+        <!-- cell 2  -->
+        <!-- <div class="col-md-4">
+          <div class="flip-card">
+            <a href="kinsex">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img class="card-img-top" src="/static/images/snp copy.png" alt="SNP Genotyping Analyses (PLINK)">
+                </div>
+                <div class="flip-card-back">
+
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                      <p class="card-text anchor" style="padding: 8%; "> This module will help you analyze SNP data. Starting with PLINK format (PED/MAP, or BED/BIM/FAM) files, this module allows you to verify reported kinships within a pedigree and verify the sex of each individual. It also supports Principal Component Analysis-based ancestry inference. </p>
+                        <br><br></p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div> -->
+
+        <!-- cell 3  -->
+        <div class="col-md-4">
+          <div class="flip-card">
+            <a href="visualize">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img class="card-img-top" src="/static/images/igv copy.png" alt="IGV Genome Browser">
+                </div>
+                <div class="flip-card-back">
+                  <div class="card-body d-flex justify-content-between align-items-center">
+                    <p class="card-text anchor" style="padding: 8%;"> This module allows you to upload a csv file (e.g. of candidate variants resulting from a Family-Based Analysis, or a Cohort-Based Analysis) and automates the visual inspection of the reads in IGV. For this module, you must have the BAM and BAI files for each individual in the analysis. </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="flip-card">
+            <a href="gene">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img class="card-img-top" src="/static/images/genes.png" alt="Genes List">
+                </div>
+                <div class="flip-card-back">
+                  <div class="card-body d-flex justify-content-between align-items-center">
+                    <p class="card-text anchor" style="padding: 10%;"> This module allows you to easily extract variants in genes of interest (from a user-defined list) from an individual’s CSV file. For example, this module may be used after the Allele Frequency filter, or after the Modes of Inheritance filter. </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row ends -->
+      </div>
+
+      <br><br>
+
+      </div>
+
+  </main>
+
+  <br><br><br><br>
+
+  <footer class="page-footer font-small">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <br><br>
+
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+
+  <script src="https://www.givengine.org/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+</body>
+
+</html>

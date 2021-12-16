@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Required meta tags for Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Milind Agarwal">
+  <meta name="description" content="Convert VCF to ANNOVAR">
+
+  <title>VCF to ANNOVAR Converter</title>
+
+  <!-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> -->
+  <!-- Bootstrap CDN CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!-- CSS Stylesheet Link in Title -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+
+
+</head>
+
+<body class="bg-light">
+  <header>
+
+    <!-- Sample code to check if Bootstrap files have been linked
+    <button type="submit" class="btn btn-success" name="button">This is a button</button> -->
+    <nav class="nav navbar navbar-expand-lg navbar-light bg-light fixed-top navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">WebSeq Lite </a>
+        </div>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>VCF to ANNOVAR Converter</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/onevcf">One VCF per individual </a>
+              <a class="dropdown-item" href="/twovcf">Two VCFs per individual</a>
+            </div>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Documentation</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <section class="jumbotron text-center" style='background-image: url("/static/images/vcfJumbo.png"); background-position: center center;background-repeat: no-repeat;  background-size: cover;height:13em'>
+
+    <div class="container">
+      <h1 class="jumbotron-heading">VCF to ANNOVAR Converter</h1>
+
+      <div align="right">
+        <a href="/annovar_option">
+          <button class="btn btn-primary float-right backbut" type="button" name="button"> Back </button>
+        </a>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- method="post"  -->
+
+  <form id="twovcfform" action="/twovcfurl" method="POST" enctype="multipart/form-data">
+    <div class="container uploaderArea">
+      <div class="contaner row ">
+        <div class="col-sm-6  ">
+
+          <div class="upload-btn-wrapper">
+            <button class="mybtn">Upload two files</button>
+            <input id="twovcfupload" type="file" name="twovcffile" multiple>
+          </div>
+
+
+          <br />Selected files:
+          <ul>
+            <div id="twovcfFileList">
+            </div>
+          </ul>
+          <br>
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">
+        Oops! Looks like <strong>you selected an unsupported file.</strong> Make sure you only have VCF files selected.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+        </div>
+        </div>
+        <div class="col-sm-6">
+
+          This module will merge 2 VCF files and generate a single CSV file with ANNOVAR variant annotations.
+          Both VCFs must belong to the same individual. <br><br>
+          The underscore (_) is used to extract the patient ID code from your files so it is crucial that you follow the format above to avoid errors.
+<br><br>
+        ex. If you received two files for your patient- one with single nucleotide variants and one with indels:<br> <br>
+
+
+        <img  src="/static/images/twovcfgraphic.png" alt="Two VCF graphic" width="90%" style="  display:block;
+    margin:auto;"/>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- type="submit" -->
+      <button type="button" id="twovcfbutton" class="btn btn-primary" name="button" value="Twovcf"> Submit </button>
+    </div>
+  </form>
+
+
+  <div class="container">
+    <br />
+    <h6>Status </h6>
+    <div>
+
+      <span class="notstarted"> Process not started yet.</span>
+
+      <span class="inprogress"> In Progress </span>
+
+      <span class="failed"> Failed. Try again, or check with developer.</span>
+
+      <span class="completed"> Finished! Go ahead and download your result files. </span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- type="submit" -->
+    <br/>
+    <button type="button" id="download_twovcfbutton" class="btn btn-success" name="button" value="Download"> Download </button>
+    <p class="text-muted"></p>
+    <a href="clean">
+      <button type="button" id="push_twovcfbutton" class="btn btn-primary" name="button" value="Push"> Push results to next stage </button>
+    </a>
+  </div>
+
+
+<br><br><br><br>
+<div class="container">
+  <!-- <div class="card card-body" style="background-color: #DCDCDC	;"> -->
+    <b><span class="text-dark">References: </span></b>
+       <p class="text-muted"> Yang H, Wang K. <a target="_blank" href="http://www.nature.com/nprot/journal/v10/n10/abs/nprot.2015.105.html">Genomic variant annotation and prioritization with ANNOVAR and wANNOVAR</a> Nature Protocols, 2015. </p>
+      <p class="text-muted"> Chang X, Wang K. <a target="_blank" href="https://jmg.bmj.com/content/49/7/433.full" > wANNOVAR: annotating genetic variants for personal genomes via the web. </a>J Med Genet, 2012. </p>
+      <p class="text-muted"> Wang K, Li M, Hakonarson H. <a target="_blank" href="https://academic.oup.com/nar/article/38/16/e164/1749458"> ANNOVAR: functional annotation of genetic variants from high-throughput sequencing data.</a> Nucleic Acids Research, 2010 </p>
+  <!-- </div> -->
+</div>
+
+<br><br><br><br>
+<footer class="page-footer font-small">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">WebSeq Lite – Designed and developed by Milind Agarwal, Rayz Ghimire and Janet Markle @Markle Lab
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<br><br>
+
+
+  <!-- Bootstrap Required JavaScipt and JQuery dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script src="../static/js/papaparse.min.js" charset="utf-8"></script>
+  <script src="../static/js/download2.js" charset="utf-8"></script>
+  <script src="../static/js/index.js" charset="utf-8"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+</body>
+
+</html>

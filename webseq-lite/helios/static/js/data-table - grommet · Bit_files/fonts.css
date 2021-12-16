@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "CircularProBook";
+  src: url(/assets/fonts/CircularPro-Book.otf);
+}
+
+/* headlines font */
+@font-face {
+  font-family: "CircularProBlack";
+  src: url(/assets/fonts/CircularPro-Black.otf);
+}
+
+/* headlines regular +bold */
+@font-face {
+  font-family: "CircularProBold";
+  src: url(/assets/fonts/CircularPro-Bold.otf);
+}
+
+/* headlines regular +semi-bold */
+@font-face {
+  font-family: "CircularProMedium";
+  src: url(/assets/fonts/CircularPro-Medium.otf);
+}
